@@ -143,7 +143,10 @@ void GlauberEvent::Collide(){
                     gParticipants++;
                     checksA[iteratorA] = true;
                 }
-
+                if(checksB[iteratorB] == false){
+                    gParticipants++;
+                    checksB[iteratorB] = true;
+                }
             }
         }
     }
