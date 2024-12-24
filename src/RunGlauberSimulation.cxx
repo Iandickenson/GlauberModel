@@ -15,6 +15,10 @@ void RunGlauberSimulation(int N, const int A, double_t a, double_t NN_crossSecti
         }
         }
     }
+    if(progress){
+        cout << "100%" << endl;
+        cout << N << " collisions done!" << endl;
+    }
     TH1D *bHist = new TH1D();
     bHist = (TH1D*)g->GetbHist();
     TH1D *Npart = new TH1D();

@@ -1,7 +1,9 @@
 #!/bin/bash
 
 #User-Defined Input Variables 
-N=10000
+echo "Number of events: "
+read N
+#N=1000000
 A=197
 a=0.535
 sigmaNN=33.1
