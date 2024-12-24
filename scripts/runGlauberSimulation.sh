@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#Input Variables 
-N=100
+#User-Defined Input Variables 
+N=1000
 A=197
 a=0.535
 sigmaNN=33.1
