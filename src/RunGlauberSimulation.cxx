@@ -7,9 +7,11 @@ void RunGlauberSimulation(int N, const int A, double_t a, double_t NN_crossSecti
     TString opt = option;
     opt.ToLower();
     Bool_t progress = kFALSE;
-    if(opt.Contains("progress")){
-        progress = kTRUE;
-    }
+    Bool_t hists = kFALSE;
+    Bool_t trees = kFALSE;
+    if(opt.Contains("progress")){progress = kTRUE;}
+    if(opt.Contains("hists")){hists = kTRUE;}
+    if(opt.Contains("trees")){trees = kTRUE;}
     for(int i = 0; i < N; i++){
         g->Collide();
         if(progress){
@@ -21,12 +23,18 @@ void RunGlauberSimulation(int N, const int A, double_t a, double_t NN_crossSecti
         cout << "100%" << endl;
         cout << N << " collisions done!" << endl;
     }
+    if(hists){
     TH1D *bHist = new TH1D();
     bHist = (TH1D*)g->GetbHist();
     TH1D *Npart = new TH1D();
     Npart = (TH1D*)g->GetNpartHist();
     TH1D *Ncoll = new TH1D();
     Ncoll = (TH1D*)g->GetNcollHist();
+    }
+    if(trees){
+        TTree *GlauberTree = new TTree();
+        GlauberTree = (TTree*)g->GetTree();
+    }
     f->Write();
     f->Close();
 }

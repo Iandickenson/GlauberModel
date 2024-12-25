@@ -5,6 +5,7 @@
 class TRandom3;
 class TF1;
 class TH1D;
+class TTree;
 
 class GlauberEvent : public TObject{
 
@@ -42,7 +43,10 @@ class GlauberEvent : public TObject{
         TH1D *g_Ncoll;
         TH1D *g_Npart;
 
+        TTree *gTree;
+
         Bool_t makehists;
+        Bool_t maketrees;
 
     public:
         GlauberEvent();
@@ -61,6 +65,7 @@ class GlauberEvent : public TObject{
         TH1D* GetbHist(){return g_bHist;};
         TH1D* GetNpartHist(){return g_Npart;};
         TH1D* GetNcollHist(){return g_Ncoll;};
+        TTree* GetTree(){return gTree;}
     ClassDef(GlauberEvent,1);
 };
 

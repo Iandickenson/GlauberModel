@@ -9,7 +9,7 @@ a=0.535
 sigmaNN=33.1
 echo "File name: "
 read fName
-option=makehistsprogress
+option=treeshistsprogress
 
 
 

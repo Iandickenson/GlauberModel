@@ -4,6 +4,7 @@
 #include "TH1D.h"
 #include "TRandom3.h"
 #include "TF1.h"
+#include "TTree.h"
 #include "../inc/GlauberEvent.h"
 using namespace std;
 //Default constructor
@@ -79,9 +80,9 @@ GlauberEvent::GlauberEvent(const int A, double_t a, double_t NN_crossSection, Op
     TString opt = option;
     opt.ToLower();
     makehists = kFALSE;
-    if(opt.Contains("makehists")){
-        makehists = kTRUE;
-    }
+    maketrees = kFALSE;
+    if(opt.Contains("hists")){makehists = kTRUE;}
+    if(opt.Contains("trees")){maketrees = kTRUE;}
     g_bHist = NULL;
     g_Npart = NULL;
     g_Ncoll = NULL;
@@ -102,6 +103,12 @@ GlauberEvent::GlauberEvent(const int A, double_t a, double_t NN_crossSection, Op
         g_Npart->SetTitle("Number of Participants");
         g_Npart->GetXaxis()->SetTitle("Npart");
         g_Npart->GetYaxis()->SetTitle("Counts");
+    }
+    if(maketrees){
+        gTree = new TTree("gTree", "Glauber Tree");
+        gTree->Branch("b", &gImpactParameter, "b/D");
+        gTree->Branch("Participants", &gParticipants, "Participants/D");
+        gTree->Branch("Collisions", &gCollisions, "Collisions/D");
     }
 }
 
@@ -158,6 +165,9 @@ void GlauberEvent::Collide(){
         }
         g_Npart->Fill(gParticipants);
         g_Ncoll->Fill(gCollisions);
+    }
+    if(maketrees){
+        gTree->Fill();
     }
 
 }
