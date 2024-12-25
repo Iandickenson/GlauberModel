@@ -23,6 +23,7 @@ GlauberEvent::GlauberEvent(){
     g_bHist = NULL;
     g_Npart = NULL;
     g_Ncoll = NULL;
+    gTree = NULL;
 }
 
 //Destructor
@@ -32,6 +33,9 @@ GlauberEvent::~GlauberEvent(){
         delete g_bHist;
         delete g_Npart;
         delete g_Ncoll;
+    }
+    if(maketrees){
+        delete gTree;
     }
     // delete all pointers allocated with new
 }
@@ -86,6 +90,7 @@ GlauberEvent::GlauberEvent(const int A, double_t a, double_t NN_crossSection, Op
     g_bHist = NULL;
     g_Npart = NULL;
     g_Ncoll = NULL;
+    gTree = NULL;
     if(makehists){
         g_bHist = new TH1D("bhist", "Impact Parameter", 40, 0, 18);
         Int_t NpartRange = g_nNucleons*2 + 50;
@@ -107,8 +112,8 @@ GlauberEvent::GlauberEvent(const int A, double_t a, double_t NN_crossSection, Op
     if(maketrees){
         gTree = new TTree("gTree", "Glauber Tree");
         gTree->Branch("b", &gImpactParameter, "b/D");
-        gTree->Branch("Participants", &gParticipants, "Participants/D");
-        gTree->Branch("Collisions", &gCollisions, "Collisions/D");
+        gTree->Branch("Participants", &gParticipants, "Participants/I");
+        gTree->Branch("Collisions", &gCollisions, "Collisions/I");
     }
 }
 
