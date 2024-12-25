@@ -1,6 +1,8 @@
 #include "GlauberEvent.cxx"
-
+#include "TFile.h"
 void RunGlauberSimulation(int N, const int A, double_t a, double_t NN_crossSection, Option_t *option, Option_t *optiona){
+    TFile *f = new TFile("TenMevents_NewGlauber.root", "UPDATE");
+
     GlauberEvent *g = new GlauberEvent(A, a, NN_crossSection, "makehists");
     TString opt = optiona;
     opt.ToLower();
@@ -25,4 +27,6 @@ void RunGlauberSimulation(int N, const int A, double_t a, double_t NN_crossSecti
     Npart = (TH1D*)g->GetNpartHist();
     TH1D *Ncoll = new TH1D();
     Ncoll = (TH1D*)g->GetNcollHist();
+    f->Write();
+    f->Close();
 }

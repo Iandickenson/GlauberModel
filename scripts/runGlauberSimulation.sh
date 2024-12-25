@@ -12,4 +12,6 @@ optiona=progress
 
 
 #Run the Glauber Model With the Above Options
-root -l ../src/RunGlauberSimulation.cxx\($N\,$A\,$a\,$sigmaNN\,\"$option\"\,\"$optiona\"\)
+root -l -b -q ../src/RunGlauberSimulation.cxx\($N\,$A\,$a\,$sigmaNN\,\"$option\"\,\"$optiona\"\)
+
+mv TenMevents_NewGlauber.root ../Simulations
