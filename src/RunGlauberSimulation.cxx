@@ -1,10 +1,10 @@
 #include "GlauberEvent.cxx"
 #include "TFile.h"
-void RunGlauberSimulation(int N, const int A, double_t a, double_t NN_crossSection, Option_t *option, Option_t *optiona){
-    TFile *f = new TFile("TenMevents_NewGlauber.root", "UPDATE");
+void RunGlauberSimulation(int N, const int A, double_t a, double_t NN_crossSection, const char *fName, Option_t *option){
+    TFile *f = new TFile(fName, "UPDATE");
 
-    GlauberEvent *g = new GlauberEvent(A, a, NN_crossSection, "makehists");
-    TString opt = optiona;
+    GlauberEvent *g = new GlauberEvent(A, a, NN_crossSection, option);
+    TString opt = option;
     opt.ToLower();
     Bool_t progress = kFALSE;
     if(opt.Contains("progress")){

@@ -7,11 +7,13 @@ read N
 A=197
 a=0.535
 sigmaNN=33.1
-option=makehists
-optiona=progress
+echo "File name: "
+read fName
+option=makehistsprogress
+
 
 
 #Run the Glauber Model With the Above Options
-root -l -b -q ../src/RunGlauberSimulation.cxx\($N\,$A\,$a\,$sigmaNN\,\"$option\"\,\"$optiona\"\)
+root -l -b -q ../src/RunGlauberSimulation.cxx\($N\,$A\,$a\,$sigmaNN\,\"$fName\"\,\"$option\"\)
 
-mv TenMevents_NewGlauber.root ../Simulations
+mv $fName ../Simulations
