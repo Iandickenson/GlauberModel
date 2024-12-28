@@ -5,6 +5,7 @@
 #include "TRandom3.h"
 #include "TF1.h"
 #include "TTree.h"
+#include "TGraph.h"
 #include "../inc/GlauberEvent.h"
 using namespace std;
 //Default constructor
@@ -132,7 +133,7 @@ void GlauberEvent::Collide(){
     vector<Bool_t> checksB;                                                   // count participants 
     checksA.resize(g_nNucleons);
     checksB.resize(g_nNucleons);
-    double_t nucleonDistance;
+    
     
     // Setting impact parameter 
     gImpactParameter = gImpactParameterPDF->GetRandom();
@@ -147,8 +148,8 @@ void GlauberEvent::Collide(){
     for(int iteratorA = 0; iteratorA < g_nNucleons; iteratorA++){
 
         for(int iteratorB = 0; iteratorB < g_nNucleons; iteratorB++){
-            nucleonDistance = GetNucleonDistance(iteratorA, iteratorB, g_xNucleusA, g_xNucleusB, g_yNucleusA, g_yNucleusB);
-            if(nucleonDistance < gCollision_d){
+            gNucleonDistance = GetNucleonDistance(iteratorA, iteratorB, g_xNucleusA, g_xNucleusB, g_yNucleusA, g_yNucleusB);
+            if(gNucleonDistance < gCollision_d){
                 gIsCollision = true;
                 gCollisions++;
                 if(checksA[iteratorA] == false){
@@ -175,6 +176,53 @@ void GlauberEvent::Collide(){
         gTree->Fill();
     }
 
+}
+
+void GlauberEvent::DrawCollision(){
+    TGraph *RedParticipants = new TGraph();
+    TGraph *RedSpectators = new TGraph(g_nNucleons, g_xNucleusA.data(), g_yNucleusA.data());
+
+    TGraph *BlueParticipants = new TGraph();
+    TGraph *BlueSpectators = new TGraph(g_nNucleons, g_xNucleusB.data(), g_yNucleusB.data());
+    
+    // Set nucleons as either spectators or participants
+    for(int iRed = 0; iRed < g_nNucleons; iRed++){
+        for(int jBlue = 0; jBlue < g_nNucleons; jBlue++){
+            gNucleonDistance = GetNucleonDistance(iRed, jBlue, g_xNucleusA, g_xNucleusB, g_yNucleusA, g_yNucleusB);
+            if(gNucleonDistance < gCollision_d){
+                RedParticipants->AddPoint(g_xNucleusA[iRed], g_yNucleusA[iRed]);
+                BlueParticipants->AddPoint(g_xNucleusB[jBlue], g_yNucleusB[jBlue]);
+            }
+        }
+    }
+    // For simplicity, we initalized the spectators as all nucleons (see above) so we 
+    // can show the participants by just drawing over the spectators.
+    RedSpectators->SetMarkerStyle(20);
+    RedSpectators->SetMarkerSize(2);
+    RedSpectators->SetMarkerColor(46);
+    RedSpectators->GetXaxis()->CenterTitle();
+    RedSpectators->GetXaxis()->SetTitle("x (fm)");
+    RedSpectators->SetMinimum(-18);
+    RedSpectators->SetMaximum(18);
+    RedSpectators->GetXaxis()->SetLimits(-18,18);
+    RedSpectators->GetYaxis()->CenterTitle();
+    RedSpectators->GetYaxis()->SetTitle("y (fm)");
+    RedSpectators->Draw("AP");
+
+    BlueSpectators->SetMarkerStyle(20);
+    BlueSpectators->SetMarkerSize(2);
+    BlueSpectators->SetMarkerColor(38);
+    BlueSpectators->Draw("P");
+
+    RedParticipants->SetMarkerStyle(20);
+    RedParticipants->SetMarkerSize(2);
+    RedParticipants->SetMarkerColor(2);
+    RedParticipants->Draw("P");
+
+    BlueParticipants->SetMarkerStyle(20);
+    BlueParticipants->SetMarkerSize(2);
+    BlueParticipants->SetMarkerColor(4);
+    BlueParticipants->Draw("P");
 }
 
 void GlauberEvent::CollisionReset(){

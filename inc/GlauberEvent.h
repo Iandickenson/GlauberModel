@@ -17,6 +17,7 @@ class GlauberEvent : public TObject{
         double_t gNuclearRadius;
 
         double_t gImpactParameter;
+        double_t gNucleonDistance;
 
         Int_t gParticipants;
         Int_t gCollisions;
@@ -53,7 +54,7 @@ class GlauberEvent : public TObject{
         GlauberEvent(const int A, double_t a, double_t NN_crossSection, Option_t *option);
         ~GlauberEvent();
 
-
+        void DrawCollision();
         void CollisionReset();
         void Collide();
         void FillNucleus(std::vector<double_t> &nucleusX, std::vector<double_t> &nucleusY, Option_t *optionb);
