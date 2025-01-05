@@ -65,8 +65,12 @@ class GlauberEvent : public TObject{
         Int_t GetNparticipants();
         TH1D* GetbHist(){return g_bHist;};
         TH1D* GetNpartHist(){return g_Npart;};
-        TH1D* GetNcollHist(){return g_Ncoll;};
-        TTree* GetTree(){return gTree;}
+        TH1D* GetNcollHist(){return g_bHist;};
+        TTree* GetTree(){return gTree;};
+        Int_t GetNnucleons(){return g_nNucleons;};
+        double_t GetNNcrossSection(){return gNN_crossSection;};
+        double_t GetSkinDepth(){return gSkinDepth;};
+        
     ClassDef(GlauberEvent,1);
 };
 
